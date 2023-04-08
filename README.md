@@ -20,6 +20,8 @@ Restaurant Reviewer is an app that can let you keep track and review your favour
 
 ## Images
 
-![main page](./images/main-page.png)
+<img src="https://github.com/JunHuiChia/Restaurant-Reviewer/blob/main/images/main-page.png" height=50%>
+
+![main page|50%](./images/main-page.png)
 
 ![add new restaurant page](./images/add-new-restaurant-page.png)
