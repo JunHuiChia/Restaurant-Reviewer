@@ -129,12 +129,23 @@ public class MainActivity extends AppCompatActivity {
 
             textViewName.setText(restaurant.name);
             textViewPrice.setText(restaurant.priceRange);
-
-            String rating = String.valueOf(restaurant.rating);
-            if(restaurant.rating == -1) rating = "Unrated";
+            String rating = formatRating(restaurant);
             textViewRating.setText(rating);
 
             return convertView;
+        }
+
+        public String formatRating(Restaurants restaurant) {
+            String rating = String.valueOf(restaurant.rating);
+            switch (restaurant.rating) {
+                case -1:rating = "Unrated"; break;
+                case 1: rating = "★☆☆☆☆"; break;
+                case 2: rating = "★★☆☆☆"; break;
+                case 3: rating = "★★★☆☆"; break;
+                case 4: rating = "★★★★☆"; break;
+                case 5: rating = "★★★★★"; break;
+            }
+            return rating;
         }
 
         @Override
