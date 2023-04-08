@@ -20,5 +20,8 @@ public class Restaurants {
 
     @ColumnInfo(name = "cuisine")
     public String cuisine;
+
+    @ColumnInfo(name = "description")
+    public String description;
 }
 

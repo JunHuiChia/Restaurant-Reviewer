@@ -15,7 +15,7 @@ import com.example.restuarantreviewer.database.entity.Restaurants;
 
 public class AddRestaurantActivity extends AppCompatActivity {
 
-    EditText nameEditText;
+    EditText nameEditText, descriptionEditText;
     Spinner cuisineSpinner, priceRangeSpinner, ratingSpinner;
     Button addButton;
 
@@ -30,6 +30,7 @@ public class AddRestaurantActivity extends AppCompatActivity {
         cuisineSpinner = findViewById(R.id.spinner_restaurant_cuisine);
         priceRangeSpinner = findViewById(R.id.spinner_restaurant_price_range);
         ratingSpinner = findViewById(R.id.spinner_restaurant_rating);
+        descriptionEditText = findViewById(R.id.et_restaurant_description);
         addButton = findViewById(R.id.btn_add_new_restaurant);
 
         cuisineSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -76,6 +77,7 @@ public class AddRestaurantActivity extends AppCompatActivity {
 
     public void saveRestaurant() {
         restaurant.name = nameEditText.getText().toString();
+        restaurant.description = descriptionEditText.getText().toString();
         if (restaurant.name.isEmpty()) {
             Toast.makeText(AddRestaurantActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
             return;
