@@ -8,7 +8,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.restuarantreviewer.R;
-import com.example.restuarantreviewer.Restaurant;
 
 public class RestaurantDetailsActivity extends AppCompatActivity {
     TextView nameTextView, cuisineTextView, priceRangeTextView, addressTextView, ratingTextView, reviewTextView;
@@ -21,7 +20,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
 
         // Get the restaurant object from the intent
         Intent intent = getIntent();
-        Restaurant restaurant = intent.getParcelableExtra("restaurant");
+        // Restaurant restaurant = intent.getParcelableExtra("restaurant");
 
         // Initialize the views
         nameTextView = findViewById(R.id.restaurant_name);
@@ -33,9 +32,9 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         restaurantImageView = findViewById(R.id.restaurant_image);
 
         // Set the restaurant details
-        nameTextView.setText(restaurant.getName());
-        cuisineTextView.setText(restaurant.getCuisine());
-        priceRangeTextView.setText(restaurant.getPrice());
+//        nameTextView.setText(restaurant.getName());
+//        cuisineTextView.setText(restaurant.getCuisine());
+        //priceRangeTextView.setText(restaurant.getPrice());
     }
 }
 
