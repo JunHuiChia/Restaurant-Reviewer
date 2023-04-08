@@ -1,6 +1,7 @@
-package com.example.restuarantreviewer;
+package com.example.restuarantreviewer.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,11 +12,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import com.example.restuarantreviewer.R;
+import com.example.restuarantreviewer.Restaurant;
 import com.example.restuarantreviewer.database.AppDatabase;
 import com.example.restuarantreviewer.database.dao.RestuarantDao;
 import com.example.restuarantreviewer.database.entity.Restuarants;
@@ -24,14 +26,13 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private EditText editTextName, editTextCuisine, editTextPrice;
-    private Button buttonAdd;
+    private Button addRestaurantBtn;
     private ExpandableListView expandableListView;
     private ExpandableListAdapter expandableListAdapter;
     private List<String> listDataHeader;
@@ -50,10 +51,7 @@ public class MainActivity extends AppCompatActivity {
         List<Restuarants> restuarants = restuarantDao.getAll();
 
         // Initialize views
-        editTextName = findViewById(R.id.editTextName);
-        editTextCuisine = findViewById(R.id.editTextCuisine);
-        editTextPrice = findViewById(R.id.editTextPrice);
-        buttonAdd = findViewById(R.id.buttonAdd);
+        addRestaurantBtn = findViewById(R.id.btn_add_restaurant);
         expandableListView = findViewById(R.id.expandableListView);
 
         // Initialize data
@@ -68,48 +66,55 @@ public class MainActivity extends AppCompatActivity {
         expandableListView.setAdapter(expandableListAdapter);
 
 
-        // Set listener for Add button
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
+        addRestaurantBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                String name = editTextName.getText().toString();
-                String cuisine = editTextCuisine.getText().toString();
-                String price = editTextPrice.getText().toString();
-
-                // Check if any field is empty
-                if (name.isEmpty() || cuisine.isEmpty() || price.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                // Add item to data
-                Restaurant restaurant = new Restaurant(name, cuisine, price);
-                if (listDataHeader.contains(cuisine)) {
-                    int groupPosition = listDataHeader.indexOf(cuisine);
-                    List<Restaurant> restaurants = listDataChild.get(listDataHeader.get(groupPosition));
-                    restaurants.add(restaurant);
-
-                } else {
-                    listDataHeader.add(cuisine);
-                    List<Restaurant> restaurants = new ArrayList<>();
-                    restaurants.add(restaurant);
-                    listDataChild.put(cuisine, restaurants);
-                }
-
-                // Sort data by cuisine
-                Collections.sort(listDataHeader);
-
-                // Notify adapter
-                expandableListAdapter.notifyDataSetChanged();
-
-                saveData();
-                loadData();
-                // Clear fields
-                editTextName.setText("");
-                editTextCuisine.setText("");
-                editTextPrice.setText("");
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, AddRestaurantActivity.class);
+                startActivity(intent);
             }
         });
+        // Set listener for Add button
+//        buttonAdd.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String name = editTextName.getText().toString();
+//                String cuisine = editTextCuisine.getText().toString();
+//                String price = editTextPrice.getText().toString();
+//
+//                // Check if any field is empty
+//                if (name.isEmpty() || cuisine.isEmpty() || price.isEmpty()) {
+//                    Toast.makeText(MainActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//
+//                // Add item to data
+//                Restaurant restaurant = new Restaurant(name, cuisine, price);
+//                if (listDataHeader.contains(cuisine)) {
+//                    int groupPosition = listDataHeader.indexOf(cuisine);
+//                    List<Restaurant> restaurants = listDataChild.get(listDataHeader.get(groupPosition));
+//                    restaurants.add(restaurant);
+//
+//                } else {
+//                    listDataHeader.add(cuisine);
+//                    List<Restaurant> restaurants = new ArrayList<>();
+//                    restaurants.add(restaurant);
+//                    listDataChild.put(cuisine, restaurants);
+//                }
+//
+//                // Sort data by cuisine
+//                Collections.sort(listDataHeader);
+//
+//                // Notify adapter
+//                expandableListAdapter.notifyDataSetChanged();
+//
+//                saveData();
+//                loadData();
+//                // Clear fields
+//                editTextName.setText("");
+//                editTextCuisine.setText("");
+//                editTextPrice.setText("");
+//            }
+//        });
     }
     private void saveData() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
