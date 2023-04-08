@@ -19,8 +19,8 @@ import androidx.room.Room;
 import com.example.restuarantreviewer.R;
 import com.example.restuarantreviewer.Restaurant;
 import com.example.restuarantreviewer.database.AppDatabase;
-import com.example.restuarantreviewer.database.dao.RestuarantDao;
-import com.example.restuarantreviewer.database.entity.Restuarants;
+import com.example.restuarantreviewer.database.dao.RestaurantDao;
+import com.example.restuarantreviewer.database.entity.Restaurants;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
             AppDatabase.class, "app-db").allowMainThreadQueries().build();
 
-        RestuarantDao restuarantDao = db.restuarantDao();
-        List<Restuarants> restuarants = restuarantDao.getAll();
+        RestaurantDao restaurantDao = db.restaurantDao();
+        List<Restaurants> restuarants = restaurantDao.getAll();
 
         // Initialize views
         addRestaurantBtn = findViewById(R.id.btn_add_restaurant);

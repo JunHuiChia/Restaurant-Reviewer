@@ -3,10 +3,10 @@ package com.example.restuarantreviewer.database;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
-import com.example.restuarantreviewer.database.dao.RestuarantDao;
-import com.example.restuarantreviewer.database.entity.Restuarants;
+import com.example.restuarantreviewer.database.dao.RestaurantDao;
+import com.example.restuarantreviewer.database.entity.Restaurants;
 
-@Database(entities = {Restuarants.class}, version = 1)
+@Database(entities = {Restaurants.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
-    public abstract RestuarantDao restuarantDao();
+    public abstract RestaurantDao restaurantDao();
 }
