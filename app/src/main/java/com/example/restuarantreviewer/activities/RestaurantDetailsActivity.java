@@ -1,4 +1,4 @@
-package com.example.restuarantreviewer;
+package com.example.restuarantreviewer.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.restuarantreviewer.R;
+import com.example.restuarantreviewer.Restaurant;
 
 public class RestaurantDetailsActivity extends AppCompatActivity {
     TextView nameTextView, cuisineTextView, priceRangeTextView, addressTextView, ratingTextView, reviewTextView;

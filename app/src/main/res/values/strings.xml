@@ -10,4 +10,32 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="add_restaurant">Add restaurant</string>
+
+    <!--TODO: Save cuisine to the database and let user add their own cuisines -->
+    <string-array name="spinner_cuisine">
+        <item>Burgers</item>
+        <item>Chicken</item>
+        <item>English</item>
+        <item>Sushi</item>
+        <item>Desserts</item>
+        <item>Indian</item>
+        <item>Taiwanese</item>
+        <item>Chinese</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="spinner_price_range">
+        <item>£</item>
+        <item>££</item>
+        <item>£££</item>
+        <item>££££</item>
+    </string-array>
+    <string-array name="spinner_rating">
+        <item>N/A</item>
+        <item>1/5</item>
+        <item>2/5</item>
+        <item>3/5</item>
+        <item>4/5</item>
+        <item>5/5</item>
+    </string-array>
 </resources>
