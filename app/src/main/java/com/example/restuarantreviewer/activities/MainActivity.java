@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private List<String> listDataHeader;
     private HashMap<String, List<Restaurant>> listDataChild;
     private SharedPreferences sharedPreferences;
+    public static RestaurantDao restaurantDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
             AppDatabase.class, "app-db").allowMainThreadQueries().build();
 
-        RestaurantDao restaurantDao = db.restaurantDao();
-        List<Restaurants> restuarants = restaurantDao.getAll();
+        restaurantDao = db.restaurantDao();
+        List<Restaurants> restaurants = restaurantDao.getAll();
 
         // Initialize views
         addRestaurantBtn = findViewById(R.id.btn_add_restaurant);
@@ -66,12 +67,9 @@ public class MainActivity extends AppCompatActivity {
         expandableListView.setAdapter(expandableListAdapter);
 
 
-        addRestaurantBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AddRestaurantActivity.class);
-                startActivity(intent);
-            }
+        addRestaurantBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, AddRestaurantActivity.class);
+            startActivity(intent);
         });
         // Set listener for Add button
 //        buttonAdd.setOnClickListener(new View.OnClickListener() {
