@@ -2,6 +2,7 @@ package com.example.restuarantreviewer.database.dao;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
+import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -17,6 +18,8 @@ public interface RestaurantDao {
     @Query("SELECT * FROM Restaurants WHERE cuisine LIKE :cuisine")
     List<Restaurants> getAllByCuisine(String cuisine);
 
+    @Insert
+    void insert(Restaurants restaurant);
     @Delete
     void delete(Restaurants restaurant);
 
