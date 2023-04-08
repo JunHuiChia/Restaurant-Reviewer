@@ -174,16 +174,6 @@ public class MainActivity extends AppCompatActivity {
             textViewName.setText(restaurant.getName());
             textViewPrice.setText(restaurant.getPrice());
 
-            textViewName.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    listDataChild.get(restaurant.getCuisine()).remove(restaurant);
-                    //deleteGroup();
-                    saveData();
-                    return true;
-                }
-            });
-
             return convertView;
         }
 
