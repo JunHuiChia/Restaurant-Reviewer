@@ -2,14 +2,12 @@ package com.example.restuarantreviewer.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
@@ -17,28 +15,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import com.example.restuarantreviewer.R;
-import com.example.restuarantreviewer.Restaurant;
 import com.example.restuarantreviewer.database.AppDatabase;
 import com.example.restuarantreviewer.database.dao.RestaurantDao;
 import com.example.restuarantreviewer.database.entity.Restaurants;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
-    private EditText editTextName, editTextCuisine, editTextPrice;
     private Button addRestaurantBtn;
     private ExpandableListView expandableListView;
     private ExpandableListAdapter expandableListAdapter;
     private List<String> listDataHeader;
-    private HashMap<String, List<Restaurant>> listDataChild;
-    private SharedPreferences sharedPreferences;
+    private HashMap<String, List<Restaurants>> listDataChild;
     public static RestaurantDao restaurantDao;
+    public List<Restaurants> restaurants;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
             AppDatabase.class, "app-db").allowMainThreadQueries().build();
 
         restaurantDao = db.restaurantDao();
-        List<Restaurants> restaurants = restaurantDao.getAll();
 
         // Initialize views
         addRestaurantBtn = findViewById(R.id.btn_add_restaurant);
@@ -59,91 +50,55 @@ public class MainActivity extends AppCompatActivity {
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<>();
 
-        sharedPreferences = getSharedPreferences("RestaurantData", MODE_PRIVATE);
-        loadData();
-
         // Initialize adapter
         expandableListAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
-        expandableListView.setAdapter(expandableListAdapter);
-
 
         addRestaurantBtn.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, AddRestaurantActivity.class);
             startActivity(intent);
         });
-        // Set listener for Add button
-//        buttonAdd.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String name = editTextName.getText().toString();
-//                String cuisine = editTextCuisine.getText().toString();
-//                String price = editTextPrice.getText().toString();
-//
-//                // Check if any field is empty
-//                if (name.isEmpty() || cuisine.isEmpty() || price.isEmpty()) {
-//                    Toast.makeText(MainActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//
-//                // Add item to data
-//                Restaurant restaurant = new Restaurant(name, cuisine, price);
-//                if (listDataHeader.contains(cuisine)) {
-//                    int groupPosition = listDataHeader.indexOf(cuisine);
-//                    List<Restaurant> restaurants = listDataChild.get(listDataHeader.get(groupPosition));
-//                    restaurants.add(restaurant);
-//
-//                } else {
-//                    listDataHeader.add(cuisine);
-//                    List<Restaurant> restaurants = new ArrayList<>();
-//                    restaurants.add(restaurant);
-//                    listDataChild.put(cuisine, restaurants);
-//                }
-//
-//                // Sort data by cuisine
-//                Collections.sort(listDataHeader);
-//
-//                // Notify adapter
-//                expandableListAdapter.notifyDataSetChanged();
-//
-//                saveData();
-//                loadData();
-//                // Clear fields
-//                editTextName.setText("");
-//                editTextCuisine.setText("");
-//                editTextPrice.setText("");
-//            }
-//        });
     }
-    private void saveData() {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String headerJson = gson.toJson(listDataHeader);
-        String childJson = gson.toJson(listDataChild);
-        editor.putString("header", headerJson);
-        editor.putString("child", childJson);
-        editor.apply();
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        loadData();
+        expandableListView.setAdapter(expandableListAdapter);
     }
 
     private void loadData() {
-        Gson gson = new Gson();
-        String headerJson = sharedPreferences.getString("header", null);
-        String childJson = sharedPreferences.getString("child", null);
+        restaurants = restaurantDao.getAll();
 
-        if (headerJson != null && childJson != null) {
-            Type headerType = new TypeToken<List<String>>() {}.getType();
-            Type childType = new TypeToken<HashMap<String, List<Restaurant>>>() {}.getType();
+        for (Restaurants restaurant: restaurants) {
+            String restaurantCuisine = restaurant.cuisine;
+            if (listDataHeader.contains(restaurantCuisine)) {
+                boolean exists = false;
+                List<Restaurants> restaurantsList = listDataChild.get(restaurantCuisine);
+                for (Restaurants childRestaurant : restaurantsList) {
+                    if (childRestaurant.uid == restaurant.uid)
+                        exists = true;
+                        continue;
+                }
+                if (exists) continue;
+                restaurantsList.add(restaurant);
+            }
+            else {
+                listDataHeader.add(restaurantCuisine);
+                List<Restaurants> restaurantsList = new ArrayList<>();
+                restaurantsList.add(restaurant);
+                listDataChild.put(restaurantCuisine, restaurantsList);
+            }
 
-            listDataHeader = gson.fromJson(headerJson, headerType);
-            listDataChild = gson.fromJson(childJson, childType);
         }
     }
     private class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         private Context context;
         private List<String> listDataHeader;
-        private HashMap<String, List<Restaurant>> listDataChild;
+        private HashMap<String, List<Restaurants>> listDataChild;
 
-        public ExpandableListAdapter(Context context, List<String> listDataHeader, HashMap<String, List<Restaurant>> listDataChild) {
+        public ExpandableListAdapter(Context context, List<String> listDataHeader, HashMap<String, List<Restaurants>> listDataChild) {
             this.context = context;
             this.listDataHeader = listDataHeader;
             this.listDataChild = listDataChild;
@@ -163,16 +118,21 @@ public class MainActivity extends AppCompatActivity {
         public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
             if (convertView == null) {
                 LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = inflater.inflate(R.layout.list_item_child, null);
+                convertView = inflater.inflate(R.layout.list_child, null);
             }
 
-            Restaurant restaurant = (Restaurant) getChild(groupPosition, childPosition);
+            Restaurants restaurant = (Restaurants) getChild(groupPosition, childPosition);
 
-            TextView textViewName = convertView.findViewById(R.id.textViewName);
-            TextView textViewPrice = convertView.findViewById(R.id.textViewPrice);
+            TextView textViewName = convertView.findViewById(R.id.tv_list_child_name);
+            TextView textViewPrice = convertView.findViewById(R.id.tv_list_child_price);
+            TextView textViewRating = convertView.findViewById(R.id.tv_list_child_rating);
 
-            textViewName.setText(restaurant.getName());
-            textViewPrice.setText(restaurant.getPrice());
+            textViewName.setText(restaurant.name);
+            textViewPrice.setText(restaurant.priceRange);
+
+            String rating = String.valueOf(restaurant.rating);
+            if(restaurant.rating == -1) rating = "Unrated";
+            textViewRating.setText(rating);
 
             return convertView;
         }
@@ -201,12 +161,12 @@ public class MainActivity extends AppCompatActivity {
         public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
             if (convertView == null) {
                 LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = inflater.inflate(R.layout.list_item_header, null);
+                convertView = inflater.inflate(R.layout.list_header, null);
             }
 
             String cuisine = (String) getGroup(groupPosition);
 
-            TextView textViewCuisine = convertView.findViewById(R.id.textViewCuisine);
+            TextView textViewCuisine = convertView.findViewById(R.id.tv_cuisine);
             textViewCuisine.setText(cuisine);
 
             return convertView;

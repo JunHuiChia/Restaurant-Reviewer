@@ -32,7 +32,6 @@ public class AddRestaurantActivity extends AppCompatActivity {
         ratingSpinner = findViewById(R.id.spinner_restaurant_rating);
         addButton = findViewById(R.id.btn_add_new_restaurant);
 
-        restaurant.name = nameEditText.getText().toString();
         cuisineSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -58,7 +57,12 @@ public class AddRestaurantActivity extends AppCompatActivity {
         ratingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                restaurant.rating = adapterView.getSelectedItemPosition();
+                int rating = adapterView.getSelectedItemPosition();
+                if (rating == 0) {
+                    restaurant.rating = -1;
+                    return;
+                }
+                restaurant.rating = rating;
             }
 
             @Override
@@ -71,11 +75,13 @@ public class AddRestaurantActivity extends AppCompatActivity {
     }
 
     public void saveRestaurant() {
+        restaurant.name = nameEditText.getText().toString();
         if (restaurant.name.isEmpty()) {
             Toast.makeText(AddRestaurantActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
         MainActivity.restaurantDao.insert(restaurant);
+        finish();
     }
 }
