@@ -6,6 +6,16 @@
     android:orientation="vertical">
 
     <Button
+        android:id="@+id/btn_expand_all"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:text="Expand All"
+        android:layout_width="150dp"
+        android:layout_height="50dp">
+    </Button>
+
+    <Button
         android:id="@+id/btn_add_restaurant"
         android:layout_width="64dp"
         android:layout_height="64dp"
@@ -19,6 +29,7 @@
     <ExpandableListView
         android:id="@+id/expandableListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/btn_expand_all"/>
 
 </RelativeLayout>

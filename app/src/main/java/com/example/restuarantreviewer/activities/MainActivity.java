@@ -25,6 +25,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private Button addRestaurantBtn;
+    private Button expandAllBtn;
     private ExpandableListView expandableListView;
     private ExpandableListAdapter expandableListAdapter;
     private List<String> listDataHeader;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         // Initialize views
         addRestaurantBtn = findViewById(R.id.btn_add_restaurant);
         expandableListView = findViewById(R.id.expandableListView);
+        expandAllBtn = findViewById(R.id.btn_expand_all);
 
         // Initialize data
         listDataHeader = new ArrayList<>();
@@ -56,6 +58,10 @@ public class MainActivity extends AppCompatActivity {
         addRestaurantBtn.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, AddRestaurantActivity.class);
             startActivity(intent);
+        });
+
+        expandAllBtn.setOnClickListener(view -> {
+            expandAllGroups();
         });
     }
 
@@ -76,9 +82,10 @@ public class MainActivity extends AppCompatActivity {
                 boolean exists = false;
                 List<Restaurants> restaurantsList = listDataChild.get(restaurantCuisine);
                 for (Restaurants childRestaurant : restaurantsList) {
-                    if (childRestaurant.uid == restaurant.uid)
+                    if (childRestaurant.uid == restaurant.uid) {
                         exists = true;
                         continue;
+                    }
                 }
                 if (exists) continue;
                 restaurantsList.add(restaurant);
@@ -131,6 +138,11 @@ public class MainActivity extends AppCompatActivity {
             textViewPrice.setText(restaurant.priceRange);
             String rating = formatRating(restaurant);
             textViewRating.setText(rating);
+
+            convertView.setOnClickListener(view -> {
+                Intent intent = new Intent(MainActivity.this, RestaurantDetailsActivity.class);
+                startActivity(intent);
+            });
 
             return convertView;
         }
@@ -194,7 +206,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
+    private void expandAllGroups() {
+        int groupCount = expandableListAdapter.getGroupCount();
+        for (int i = 0; i < groupCount; i++) {
+            expandableListView.expandGroup(i);
+        }
+    }
 }
 
 
