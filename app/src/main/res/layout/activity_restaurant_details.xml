@@ -1,64 +1,166 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="8dp">
 
-    <ImageView
-        android:id="@+id/restaurant_image"
+    <LinearLayout
+        android:id="@+id/ll_details_restaurant_name"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:scaleType="centerCrop"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="15dp">
 
-    <TextView
-        android:id="@+id/restaurant_name"
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Name: "
+            android:textSize="20sp"/>
+
+        <EditText
+            android:id="@+id/et_details_restaurant_name"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="2"
+            android:hint="Name"
+            android:inputType="text"
+            android:layout_marginLeft="5dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_details_restaurant_cuisine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/ll_details_restaurant_name"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cuisine/Type: "
+            android:textSize="20sp"/>
+
+        <Spinner
+            android:id="@+id/spinner_details_restaurant_cuisine"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="2"
+            android:hint=""
+            android:entries="@array/spinner_cuisine"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_details_restaurant_price_range"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/ll_details_restaurant_cuisine"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Price Range:"
+            android:textSize="20sp"/>
+
+        <Spinner
+            android:id="@+id/spinner_details_restaurant_price_range"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="2"
+            android:hint=""
+            android:entries="@array/spinner_price_range"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_details_restaurant_rating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/ll_details_restaurant_price_range"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Rating:"
+            android:textSize="20sp"/>
+
+        <Spinner
+            android:id="@+id/spinner_details_restaurant_rating"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="2"
+            android:hint=""
+            android:entries="@array/spinner_rating"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_details_restaurant_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/ll_details_restaurant_rating"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Description:"
+            android:textSize="20sp"/>
+
+        <EditText
+            android:id="@+id/et_details_restaurant_description"
+            android:layout_width="0dp"
+            android:layout_height="96dp"
+            android:layout_weight="2"
+            android:hint="Description"
+            android:inputType="textMultiLine"
+            android:minLines="3"
+            android:layout_marginLeft="5dp"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/restaurant_image"
-        android:padding="16dp"
-        android:textSize="24sp"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_details_restaurant_description"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintVertical_bias="0.086"
+        tools:layout_editor_absoluteX="89dp">
 
-    <TextView
-        android:id="@+id/restaurant_cuisine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/restaurant_name"
-        android:layout_marginTop="8dp"
-        android:padding="16dp"
-        android:textSize="18sp"/>
+        <Button
+            android:id="@+id/btn_delete_restaurant"
+            android:layout_width="108dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:text="Delete"
+            app:layout_constraintEnd_toEndOf="@id/ll_details_restaurant_description"
+            app:layout_constraintEnd_toStartOf="@id/btn_save_restaurant"
+            app:layout_constraintTop_toBottomOf="@id/ll_details_restaurant_description" />
 
-    <TextView
-        android:id="@+id/restaurant_price_range"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/restaurant_cuisine"
-        android:layout_marginTop="8dp"
-        android:padding="16dp"
-        android:textSize="18sp"/>
+        <Button
+            android:id="@+id/btn_save_restaurant"
+            android:layout_width="108dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Save"
+            app:layout_constraintStart_toEndOf="@id/btn_delete_restaurant"
+            app:layout_constraintTop_toBottomOf="@id/ll_details_restaurant_description" />
 
-    <TextView
-        android:id="@+id/restaurant_address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/restaurant_price_range"
-        android:layout_marginTop="8dp"
-        android:padding="16dp"
-        android:textSize="18sp"/>
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/restaurant_rating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/restaurant_address"
-        android:layout_marginTop="8dp"
-        android:padding="16dp"
-        android:textSize="18sp"/>
 
-    <TextView
-        android:id="@+id/restaurant_review"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/restaurant_rating"
-        android:layout_marginTop="8dp"
-        android:padding="16dp"
-        android:textSize="18sp"/>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
