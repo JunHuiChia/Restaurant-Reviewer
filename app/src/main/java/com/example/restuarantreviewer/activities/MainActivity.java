@@ -19,6 +19,7 @@ import com.example.restuarantreviewer.database.AppDatabase;
 import com.example.restuarantreviewer.database.dao.RestaurantDao;
 import com.example.restuarantreviewer.database.entity.Restaurants;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -141,23 +142,11 @@ public class MainActivity extends AppCompatActivity {
 
             convertView.setOnClickListener(view -> {
                 Intent intent = new Intent(MainActivity.this, RestaurantDetailsActivity.class);
+                intent.putExtra("Restaurant", (Serializable) restaurant);
                 startActivity(intent);
             });
 
             return convertView;
-        }
-
-        public String formatRating(Restaurants restaurant) {
-            String rating = String.valueOf(restaurant.rating);
-            switch (restaurant.rating) {
-                case -1:rating = "Unrated"; break;
-                case 1: rating = "★☆☆☆☆"; break;
-                case 2: rating = "★★☆☆☆"; break;
-                case 3: rating = "★★★☆☆"; break;
-                case 4: rating = "★★★★☆"; break;
-                case 5: rating = "★★★★★"; break;
-            }
-            return rating;
         }
 
         @Override
@@ -211,6 +200,18 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < groupCount; i++) {
             expandableListView.expandGroup(i);
         }
+    }
+    public static String formatRating(Restaurants restaurant) {
+        String rating = String.valueOf(restaurant.rating);
+        switch (restaurant.rating) {
+            case -1:rating = "Unrated"; break;
+            case 1: rating = "★☆☆☆☆"; break;
+            case 2: rating = "★★☆☆☆"; break;
+            case 3: rating = "★★★☆☆"; break;
+            case 4: rating = "★★★★☆"; break;
+            case 5: rating = "★★★★★"; break;
+        }
+        return rating;
     }
 }
 
