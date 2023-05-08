@@ -2,39 +2,47 @@ package com.example.restuarantreviewer.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.EditText;
+import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.restuarantreviewer.R;
+import com.example.restuarantreviewer.database.entity.Restaurants;
+
+import java.util.Arrays;
 
 public class RestaurantDetailsActivity extends AppCompatActivity {
-    TextView nameTextView, cuisineTextView, priceRangeTextView, addressTextView, ratingTextView, reviewTextView;
-    ImageView restaurantImageView;
+    EditText nameEditText, descriptionEditText;
+    Spinner cuisineSpinner, priceRangeSpinner, ratingSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_details);
 
-        // Get the restaurant object from the intent
         Intent intent = getIntent();
-        // Restaurant restaurant = intent.getParcelableExtra("restaurant");
+        Restaurants restaurant = (Restaurants) intent.getSerializableExtra("Restaurant");
 
         // Initialize the views
-        nameTextView = findViewById(R.id.restaurant_name);
-        cuisineTextView = findViewById(R.id.restaurant_cuisine);
-        priceRangeTextView = findViewById(R.id.restaurant_price_range);
-        addressTextView = findViewById(R.id.restaurant_address);
-        ratingTextView = findViewById(R.id.restaurant_rating);
-        reviewTextView = findViewById(R.id.restaurant_review);
-        restaurantImageView = findViewById(R.id.restaurant_image);
+        nameEditText = findViewById(R.id.et_details_restaurant_name);
+        priceRangeSpinner = findViewById(R.id.spinner_details_restaurant_price_range);
+        ratingSpinner = findViewById(R.id.spinner_details_restaurant_rating);
+        cuisineSpinner = findViewById(R.id.spinner_details_restaurant_cuisine);
+        descriptionEditText = findViewById(R.id.et_details_restaurant_description);
 
-        // Set the restaurant details
-//        nameTextView.setText(restaurant.getName());
-//        cuisineTextView.setText(restaurant.getCuisine());
-        //priceRangeTextView.setText(restaurant.getPrice());
+        nameEditText.setText(restaurant.name);
+        priceRangeSpinner.setSelection(itemIndex(R.array.spinner_price_range, restaurant.priceRange));
+        ratingSpinner.setSelection(itemIndex(R.array.spinner_rating, MainActivity.formatRating(restaurant)));
+        cuisineSpinner.setSelection(itemIndex(R.array.spinner_cuisine, restaurant.cuisine));
+        descriptionEditText.setText(restaurant.description);
+    }
+
+    private int itemIndex(int array_id, String targetItem) {
+        String[] itemArray = getResources().getStringArray(array_id);
+        Arrays.sort(itemArray);
+        int test = Arrays.binarySearch(itemArray, targetItem);
+        return Arrays.binarySearch(itemArray, targetItem);
     }
 }
 
