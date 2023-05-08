@@ -22,8 +22,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.AddRestaurantActivity">
-
         </activity>
+        <activity android:name=".activities.RestaurantDetailsActivity">
+        </activity>
+
     </application>
 
 </manifest>
