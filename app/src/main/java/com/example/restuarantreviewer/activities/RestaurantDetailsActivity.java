@@ -41,7 +41,6 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
     private int itemIndex(int array_id, String targetItem) {
         String[] itemArray = getResources().getStringArray(array_id);
         Arrays.sort(itemArray);
-        int test = Arrays.binarySearch(itemArray, targetItem);
         return Arrays.binarySearch(itemArray, targetItem);
     }
 }

@@ -5,15 +5,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_expand_all"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"
-        android:text="Expand All"
-        android:layout_width="150dp"
-        android:layout_height="50dp">
-    </Button>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/section_top_buttons"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/btn_expand_all"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:text="Expand All" />
+
+        <Button
+            android:id="@+id/btn_collapse_all"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:text="Collapse All" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
 
     <Button
         android:id="@+id/btn_add_restaurant"
@@ -30,6 +46,6 @@
         android:id="@+id/expandableListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/btn_expand_all"/>
+        android:layout_below="@id/section_top_buttons"/>
 
 </RelativeLayout>

@@ -27,6 +27,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private Button addRestaurantBtn;
     private Button expandAllBtn;
+    private Button collapseAllBtn;
     private ExpandableListView expandableListView;
     private ExpandableListAdapter expandableListAdapter;
     private List<String> listDataHeader;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         addRestaurantBtn = findViewById(R.id.btn_add_restaurant);
         expandableListView = findViewById(R.id.expandableListView);
         expandAllBtn = findViewById(R.id.btn_expand_all);
+        collapseAllBtn = findViewById(R.id.btn_collapse_all);
 
         // Initialize data
         listDataHeader = new ArrayList<>();
@@ -64,6 +66,10 @@ public class MainActivity extends AppCompatActivity {
         expandAllBtn.setOnClickListener(view -> {
             expandAllGroups();
         });
+        collapseAllBtn.setOnClickListener(view -> {
+            collapseAllGroups();
+        });
+
     }
 
     @Override
@@ -201,6 +207,14 @@ public class MainActivity extends AppCompatActivity {
             expandableListView.expandGroup(i);
         }
     }
+
+    private void collapseAllGroups() {
+        int groupCount = expandableListAdapter.getGroupCount();
+        for (int i = 0; i < groupCount; i++) {
+            expandableListView.collapseGroup(i);
+        }
+    }
+
     public static String formatRating(Restaurants restaurant) {
         String rating = String.valueOf(restaurant.rating);
         switch (restaurant.rating) {
