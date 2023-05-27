@@ -25,9 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private Button addRestaurantBtn;
-    private Button expandAllBtn;
-    private Button collapseAllBtn;
     private ExpandableListView expandableListView;
     private ExpandableListAdapter expandableListAdapter;
     private List<String> listDataHeader;
@@ -46,10 +43,10 @@ public class MainActivity extends AppCompatActivity {
         restaurantDao = db.restaurantDao();
 
         // Initialize views
-        addRestaurantBtn = findViewById(R.id.btn_add_restaurant);
+        Button addRestaurantBtn = findViewById(R.id.btn_add_restaurant);
         expandableListView = findViewById(R.id.expandableListView);
-        expandAllBtn = findViewById(R.id.btn_expand_all);
-        collapseAllBtn = findViewById(R.id.btn_collapse_all);
+        Button expandAllBtn = findViewById(R.id.btn_expand_all);
+        Button collapseAllBtn = findViewById(R.id.btn_collapse_all);
 
         // Initialize data
         listDataHeader = new ArrayList<>();
@@ -63,12 +60,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        expandAllBtn.setOnClickListener(view -> {
-            expandAllGroups();
-        });
-        collapseAllBtn.setOnClickListener(view -> {
-            collapseAllGroups();
-        });
+        expandAllBtn.setOnClickListener(view -> expandAllGroups());
+        collapseAllBtn.setOnClickListener(view -> collapseAllGroups());
 
     }
 
@@ -91,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
                 for (Restaurants childRestaurant : restaurantsList) {
                     if (childRestaurant.uid == restaurant.uid) {
                         exists = true;
-                        continue;
                     }
                 }
                 if (exists) continue;
@@ -150,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, RestaurantDetailsActivity.class);
                 intent.putExtra("Restaurant", (Serializable) restaurant);
                 startActivity(intent);
+                finish();
             });
 
             return convertView;
@@ -219,11 +212,11 @@ public class MainActivity extends AppCompatActivity {
         String rating = String.valueOf(restaurant.rating);
         switch (restaurant.rating) {
             case -1:rating = "Unrated"; break;
-            case 1: rating = "★☆☆☆☆"; break;
-            case 2: rating = "★★☆☆☆"; break;
+            case 1: rating = "★★★★★"; break;
+            case 2: rating = "★★★★☆"; break;
             case 3: rating = "★★★☆☆"; break;
-            case 4: rating = "★★★★☆"; break;
-            case 5: rating = "★★★★★"; break;
+            case 4: rating = "★★☆☆☆"; break;
+            case 5: rating = "★☆☆☆☆"; break;
         }
         return rating;
     }
