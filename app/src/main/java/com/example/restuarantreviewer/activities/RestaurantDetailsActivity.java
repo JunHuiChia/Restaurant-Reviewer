@@ -102,6 +102,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
             return;
         }
         Intent intent = new Intent(RestaurantDetailsActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
     }
@@ -109,6 +110,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
     private void onDeleteButtonClick() {
         MainActivity.restaurantDao.delete(oldRestaurant);
         Intent intent = new Intent(RestaurantDetailsActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
     }

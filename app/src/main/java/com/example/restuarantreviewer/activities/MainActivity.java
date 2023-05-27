@@ -48,13 +48,6 @@ public class MainActivity extends AppCompatActivity {
         Button expandAllBtn = findViewById(R.id.btn_expand_all);
         Button collapseAllBtn = findViewById(R.id.btn_collapse_all);
 
-        // Initialize data
-        listDataHeader = new ArrayList<>();
-        listDataChild = new HashMap<>();
-
-        // Initialize adapter
-        expandableListAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
-
         addRestaurantBtn.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, AddRestaurantActivity.class);
             startActivity(intent);
@@ -69,6 +62,12 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
+        // Initialize data
+        listDataHeader = new ArrayList<>();
+        listDataChild = new HashMap<>();
+
+        // Initialize adapter
+        expandableListAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
         loadData();
         expandableListView.setAdapter(expandableListAdapter);
     }
@@ -142,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, RestaurantDetailsActivity.class);
                 intent.putExtra("Restaurant", (Serializable) restaurant);
                 startActivity(intent);
-                finish();
             });
 
             return convertView;
